@@ -126,16 +126,16 @@
 
   <aside>
     <ul>
-      <li class="active">
+      <li>
         P1
       </li>
       <li>P2</li>
-      <li>P3</li>
+      <li class="active">P3</li>
     </ul>
   </aside>
 
   <div class="gradient-backdrop">
-    <h1>Project 1: Navigation</h1>
+    <h1>Project 3: Collaboration</h1>
   </div>  
 
   <div id="content">
@@ -144,15 +144,12 @@
 
       <h2>Approach</h2>
       <p>
-        When approaching the problem of solving the "Banana Collector" 🍌 environment, we relied heavily on the 
-        knowledge and intuition gained from earlier chapters from the course, ranging back to Markov Decision Processes
-        and Temporal Difference learning, but especially the material on DQN.
-        <div class="img-container stretch"><img src="./img/training.gif" alt="Training process"></div>
-        We therefore decided to base our implementation on the algorithm used to solve the "Lunar Lander" environment. 
+        When approaching the problem of solving the "Tennis" environment, we relied heavily on the 
+        knowledge and intuition gained from earlier chapters from the course.
 
-        We found that the agent was able to complete the task and achieve a score greater than 13 in 606 episodes with a final score of 13.03.
-        We later modified the agent to use a "Double DQN" strategy, which resulted in a slight performance boost. Specifically, the agent managed to solve the environment 
-        in 596 episodes, with an average score of 13.02.
+        We therefore decided to base our implementation on the MADDPG algorithm, used to solve the "Pendulum" environment. 
+
+        We found that the agent was able to complete the task and achieve a score greater than 0.5 in 417 episodes with a final score of 0.53.
 
         Please see the plots and tables below for more information.
         
@@ -164,102 +161,60 @@
         Algorithm and Architecture
       </h2>
 
-      The DQN algorithm involves using a neural network as the underlying function approximator.
-      This function, called Q, is then used to select actions, using an epsilon greedy policy.
-      A second Q function, known as the target network, is also used in order to avoid correlation
+      The DDPG algorithm on which MADDPG is based, uses an two neural networks. The first network is called the Actor, and is used to map states to actions.
+      The second network is referred to as the Critic, and maps state-action pairs to Q-values.
+
+      The Actor produces an action given the current state of the environment. The critic then produces  TD error signal, which
+      drives learning in both the actor and the critic.
+
+      This approach allows us to optimize a policy, with a continous action-space, in a deterministic fashion.
+      
+      Target networks for both the Actor and Critic networks are used in order to avoid correlation excessive
       when calculating the loss factor.
+
+      The important diffetence with MADDPG is that all agents use a shared Replay Buffer for centralized training and decentralized execution.
+
       </br>
-      </br>
-      DQN also utilizes a technique known as <strong>Replay Memory</strong>, which involves first storing the experiences, obtained
-      from interacting with the environment, and later sampling them randomly and learning from them.
-      This further minmizes correlation and stabilizies the performance of the model.
-      </br>
+
       To achieve our results, we used the following hyper parameters:
       <ul>
-        <li>GAMMA = 0.99</li>
-        <li>TAU = 1e-3</li>
-        <li>LR = 5e-4</li>
-        <li>UPDATE_EVERY = 8</li>
-        <li>N_EPISODES=2000</li>
-        <li>MAX_TIMESTEPS=1000</li>
-        <li>EPSILON_START=1.0</li>
-        <li>EPSILON_END=0.01</li>
-        <li>EPSILON_DECAY=0.995 </li>
+
+       <li>BUFFER_SIZE = int(1e6)</li>
+       <li>BATCH_SIZE = 512</li>     
+       <li>GAMMA = 0.99</li>          
+       <li>TAU = 1e-1</li>
+       <li>LR_ACTOR = 1e-3</li>       
+       <li>LR_CRITIC = 1e-3</li>
+       <li>WEIGHT_DECAY = 0</li>
+
       </ul>
-      In our case, the structure of the neural network consists of three linear layers, with an input equal to the state space (37)
-      and a final output corresponding to the number of available actions (4). In between, the hidden layer has a total of 64 neurons.
-      Finally, we decided to use the relu activation function.
 
-      
-      <h3>Double DQN</h3>
+      We also played around with the hyper parameters, and found that lowering the "tau" interpolation parameter greatly increased the results of the agent(s).
+      We also lowered the learning rate on the Agent to 1e-3 to achieve our final results.
 
-      We also experimented with an additional improvement on the original DQN algorithm known as Double DQN or DDQN.
-      Which in theory should prevent incidental high rewards that might not accurately reflect long term returns and 
-      stop q-values from exploding in early stages of learning.
-
-      In our case, we simply edited our original model to instead choose action using our local network,  
-      then evaluate the selected actions using the target network. This resulted in a slight performance bump, as shown below.
+      Further more, the neural networks used to represent the actor and critic components both had 3 fully connected layers, and utilized a combination of Rectified linear unit (ReLU) and tanh activation functions.
+      The number of neurons used in the hidden layers for the Actor and Critic networks were 400, 300 and 128, 256 respectively.
 
     </section>
 
     <section class="container">
-      <h2>DQN</h2>
-      Environment solved in 606 episodes!	Average Score: 13.03
+      <h2>MADDPG</h2>
+      Environment solved in 417 episodes!	Average Score: 0.53.
       <div class="row">
         <div class="col">
-          <table>
-              <tr>
-                <th>Episode #</th><th>Average Score</th>
-              </tr>
-              <tr><td>100</td><td>0.46</td></tr>
-              <tr><td>200</td><td>3.20</td></tr>
-              <tr><td>300</td><td>4.88</td></tr>
-              <tr><td>400</td><td>4.63</td></tr>
-              <tr><td>500</td><td>7.50</td></tr>
-              <tr><td>600</td><td>10.58</td></tr>
-              <tr><td>700</td><td>12.84</td></tr>
-              <tr><td>706</td><td>13.03</td></tr>
-            </table>        
-        </div>
-        <div class="col">
-          <div class="img-container"><img src="./img/dqn.png" alt="Vanilla DQN"></div>
+          <div class="img-container"><img src="./img/graph.png" alt="Vanilla DQN"></div>
         </div>
       </div>
     </section>
 
-    <section class="container">
-      <h2>DDQN</h2>
-      Environment solved in 596 episodes!	Average Score: 13.02
-      <div class="row">
-        <div class="col">
-          <div class="img-container"><img src="./img/ddqn.png" alt="Double DQN"></div>
-        </div>          
-        <div class="col">
-          <table>
-            <tr>
-              <th>Episode #</th><th>Average Score</th>
-            </tr>
-            <tr><td>100</td><td>0.32</td></tr>
-            <tr><td>200</td><td>1.31</td></tr>
-            <tr><td>300</td><td>5.75</td></tr>
-            <tr><td>400</td><td>7.11</td></tr>
-            <tr><td>500</td><td>8.96</td></tr>
-            <tr><td>600</td><td>11.09</td></tr>
-            <tr><td>696</td><td>13.02</td></tr>
-          </table>
-        </div>
-      </div>
-    </section>    
 
     <section>
 
       <h2>Obstacles & Future improvements</h2>
       <p>
-        The next step would involve modifying the algorithm with the techniques such as Dueling DQN and Prioritized Experience Replay, as well as trying my hand
-        at implementing the pixels to action version of the project.
 
-        We would also like to experiment with the neural network architecture by changing the number
-        of layers and neurons, and inspect how it would affect the output.            
+        The next step would be to try implementing D4PG as well as a more distributed version, with parallel training.
+        We would also like to attempt a similar approach in trying to solve an environment with even more agents.
       </p>
       
     </section>
@@ -268,10 +223,7 @@
       <h2>References</h2>
       <ul>
         <li>
-            A link to the original paper on DQN can be found <a href="https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf">here</a>.
-        </li>
-        <li>
-            The paper on Double DQN can be found <a href="https://arxiv.org/pdf/1509.06461">here</a>
+            A link to the original paper on MADDPG can be found <a href="https://arxiv.org/abs/1706.02275">here</a>.
         </li>
       </ul>      
     </section>    
