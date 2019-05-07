@@ -1,0 +1,235 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+
+<body>
+  <!--[if lte IE 9]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+  <![endif]-->
+
+  <!-- Add your site or application content here -->
+
+  <style>
+
+    body {
+      background-size: 40px 40px;
+      background-image: radial-gradient(circle, #000000 1px, rgba(0, 0, 0, 0) 1px);    
+      margin: 0;
+      padding: 0;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    aside {
+      position: fixed;
+      height: 100%;
+      background-color: #ffffff;
+      width: 96px;
+      box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+    }
+
+    aside ul {
+      padding: 0;
+      margin: 0;
+    }
+
+    aside ul li {
+      display: inline-block;
+      width: 100%;
+      text-align: center;
+      padding: 24px 0; 
+      border-bottom: 1px solid #eeeeee;
+    }
+
+    .active {
+      font-weight: bold;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+    }
+
+    table, th, td {
+      border: 1px solid black;
+    }
+
+    h2 {
+      text-decoration: underline;
+    }
+
+    th, td {
+      padding: 6px;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .col {
+      width: 50%;
+      padding: 24px;
+    }
+
+    #banner {
+      text-align: left;
+    }
+
+    section {
+      background-color: #ffffff;
+      width: 80%;
+      max-width: 792px;
+      margin: 48px auto;
+      padding: 36px 24px;
+      box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+      border-radius: 7px;
+    }
+
+    section h2 {
+      text-align: left;
+    }
+
+    .gradient-backdrop {
+      height: 400px;
+      background: #E55D87;  /* fallback for old browsers */
+      background: -webkit-linear-gradient(to right, #5FC3E4, #E55D87);  /* Chrome 10-25, Safari 5.1-6 */
+      background: linear-gradient(to right, #5FC3E4, #E55D87); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .gradient-backdrop h1 {
+      color: #ffffff;
+    } 
+
+    .img-container {
+      text-align: left;
+    }
+
+    .stretch img {
+      width: 100%;
+      height: auto;
+      max-width: 240px;
+    }
+
+  </style>
+
+  <aside>
+    <ul>
+      <li>
+        P1
+      </li>
+      <li>P2</li>
+      <li class="active">P3</li>
+    </ul>
+  </aside>
+
+  <div class="gradient-backdrop">
+    <h1>Project 3: Collaboration</h1>
+  </div>  
+
+  <div id="content">
+
+    <section>
+
+      <h2>Approach</h2>
+      <p>
+        When approaching the problem of solving the "Tennis" environment, we relied heavily on the 
+        knowledge and intuition gained from earlier chapters from the course.
+
+        We therefore decided to base our implementation on the MADDPG algorithm, used to solve the "Pendulum" environment. 
+
+        We found that the agent was able to complete the task and achieve a score greater than 0.5 in 417 episodes with a final score of 0.53.
+
+        Please see the plots and tables below for more information.
+        
+      </p>
+    </section>
+
+    <section>
+      <h2>
+        Algorithm and Architecture
+      </h2>
+
+      The DDPG algorithm on which MADDPG is based, uses an two neural networks. The first network is called the Actor, and is used to map states to actions.
+      The second network is referred to as the Critic, and maps state-action pairs to Q-values.
+
+      The Actor produces an action given the current state of the environment. The critic then produces  TD error signal, which
+      drives learning in both the actor and the critic.
+
+      This approach allows us to optimize a policy, with a continous action-space, in a deterministic fashion.
+      
+      Target networks for both the Actor and Critic networks are used in order to avoid correlation excessive
+      when calculating the loss factor.
+
+      The important diffetence with MADDPG is that all agents use a shared Replay Buffer for centralized training and decentralized execution.
+
+      </br>
+
+      To achieve our results, we used the following hyper parameters:
+      <ul>
+
+       <li>BUFFER_SIZE = int(1e6)</li>
+       <li>BATCH_SIZE = 512</li>     
+       <li>GAMMA = 0.99</li>          
+       <li>TAU = 1e-1</li>
+       <li>LR_ACTOR = 1e-3</li>       
+       <li>LR_CRITIC = 1e-3</li>
+       <li>WEIGHT_DECAY = 0</li>
+
+      </ul>
+
+      We also played around with the hyper parameters, and found that lowering the "tau" interpolation parameter greatly increased the results of the agent(s).
+      We also lowered the learning rate on the Agent to 1e-3 to achieve our final results.
+
+      Further more, the neural networks used to represent the actor and critic components both had 3 fully connected layers, and utilized a combination of Rectified linear unit (ReLU) and tanh activation functions.
+      The number of neurons used in the hidden layers for the Actor and Critic networks were 400, 300 and 128, 256 respectively.
+
+    </section>
+
+    <section class="container">
+      <h2>MADDPG</h2>
+      Environment solved in 417 episodes!	Average Score: 0.53.
+      <div class="row">
+        <div class="col">
+          <div class="img-container"><img src="./img/graph.png" alt="Vanilla DQN"></div>
+        </div>
+      </div>
+    </section>
+
+
+    <section>
+
+      <h2>Obstacles & Future improvements</h2>
+      <p>
+
+        The next step would be to try implementing D4PG as well as a more distributed version, with parallel training.
+        We would also like to attempt a similar approach in trying to solve an environment with even more agents.
+      </p>
+      
+    </section>
+
+    <section>
+      <h2>References</h2>
+      <ul>
+        <li>
+            A link to the original paper on MADDPG can be found <a href="https://arxiv.org/abs/1706.02275">here</a>.
+        </li>
+      </ul>      
+    </section>    
+
+  </div>
+
+</body>
+
+</html>

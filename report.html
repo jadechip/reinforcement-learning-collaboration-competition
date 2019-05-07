@@ -1,0 +1,283 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+
+<body>
+  <!--[if lte IE 9]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+  <![endif]-->
+
+  <!-- Add your site or application content here -->
+
+  <style>
+
+    body {
+      background-size: 40px 40px;
+      background-image: radial-gradient(circle, #000000 1px, rgba(0, 0, 0, 0) 1px);    
+      margin: 0;
+      padding: 0;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    aside {
+      position: fixed;
+      height: 100%;
+      background-color: #ffffff;
+      width: 96px;
+      box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+    }
+
+    aside ul {
+      padding: 0;
+      margin: 0;
+    }
+
+    aside ul li {
+      display: inline-block;
+      width: 100%;
+      text-align: center;
+      padding: 24px 0; 
+      border-bottom: 1px solid #eeeeee;
+    }
+
+    .active {
+      font-weight: bold;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+    }
+
+    table, th, td {
+      border: 1px solid black;
+    }
+
+    h2 {
+      text-decoration: underline;
+    }
+
+    th, td {
+      padding: 6px;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .col {
+      width: 50%;
+      padding: 24px;
+    }
+
+    #banner {
+      text-align: left;
+    }
+
+    section {
+      background-color: #ffffff;
+      width: 80%;
+      max-width: 792px;
+      margin: 48px auto;
+      padding: 36px 24px;
+      box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+      border-radius: 7px;
+    }
+
+    section h2 {
+      text-align: left;
+    }
+
+    .gradient-backdrop {
+      height: 400px;
+      background: #E55D87;  /* fallback for old browsers */
+      background: -webkit-linear-gradient(to right, #5FC3E4, #E55D87);  /* Chrome 10-25, Safari 5.1-6 */
+      background: linear-gradient(to right, #5FC3E4, #E55D87); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .gradient-backdrop h1 {
+      color: #ffffff;
+    } 
+
+    .img-container {
+      text-align: left;
+    }
+
+    .stretch img {
+      width: 100%;
+      height: auto;
+      max-width: 240px;
+    }
+
+  </style>
+
+  <aside>
+    <ul>
+      <li class="active">
+        P1
+      </li>
+      <li>P2</li>
+      <li>P3</li>
+    </ul>
+  </aside>
+
+  <div class="gradient-backdrop">
+    <h1>Project 1: Navigation</h1>
+  </div>  
+
+  <div id="content">
+
+    <section>
+
+      <h2>Approach</h2>
+      <p>
+        When approaching the problem of solving the "Banana Collector" 🍌 environment, we relied heavily on the 
+        knowledge and intuition gained from earlier chapters from the course, ranging back to Markov Decision Processes
+        and Temporal Difference learning, but especially the material on DQN.
+        <div class="img-container stretch"><img src="./img/training.gif" alt="Training process"></div>
+        We therefore decided to base our implementation on the algorithm used to solve the "Lunar Lander" environment. 
+
+        We found that the agent was able to complete the task and achieve a score greater than 13 in 606 episodes with a final score of 13.03.
+        We later modified the agent to use a "Double DQN" strategy, which resulted in a slight performance boost. Specifically, the agent managed to solve the environment 
+        in 596 episodes, with an average score of 13.02.
+
+        Please see the plots and tables below for more information.
+        
+      </p>
+    </section>
+
+    <section>
+      <h2>
+        Algorithm and Architecture
+      </h2>
+
+      The DQN algorithm involves using a neural network as the underlying function approximator.
+      This function, called Q, is then used to select actions, using an epsilon greedy policy.
+      A second Q function, known as the target network, is also used in order to avoid correlation
+      when calculating the loss factor.
+      </br>
+      </br>
+      DQN also utilizes a technique known as <strong>Replay Memory</strong>, which involves first storing the experiences, obtained
+      from interacting with the environment, and later sampling them randomly and learning from them.
+      This further minmizes correlation and stabilizies the performance of the model.
+      </br>
+      To achieve our results, we used the following hyper parameters:
+      <ul>
+        <li>GAMMA = 0.99</li>
+        <li>TAU = 1e-3</li>
+        <li>LR = 5e-4</li>
+        <li>UPDATE_EVERY = 8</li>
+        <li>N_EPISODES=2000</li>
+        <li>MAX_TIMESTEPS=1000</li>
+        <li>EPSILON_START=1.0</li>
+        <li>EPSILON_END=0.01</li>
+        <li>EPSILON_DECAY=0.995 </li>
+      </ul>
+      In our case, the structure of the neural network consists of three linear layers, with an input equal to the state space (37)
+      and a final output corresponding to the number of available actions (4). In between, the hidden layer has a total of 64 neurons.
+      Finally, we decided to use the relu activation function.
+
+      
+      <h3>Double DQN</h3>
+
+      We also experimented with an additional improvement on the original DQN algorithm known as Double DQN or DDQN.
+      Which in theory should prevent incidental high rewards that might not accurately reflect long term returns and 
+      stop q-values from exploding in early stages of learning.
+
+      In our case, we simply edited our original model to instead choose action using our local network,  
+      then evaluate the selected actions using the target network. This resulted in a slight performance bump, as shown below.
+
+    </section>
+
+    <section class="container">
+      <h2>DQN</h2>
+      Environment solved in 606 episodes!	Average Score: 13.03
+      <div class="row">
+        <div class="col">
+          <table>
+              <tr>
+                <th>Episode #</th><th>Average Score</th>
+              </tr>
+              <tr><td>100</td><td>0.46</td></tr>
+              <tr><td>200</td><td>3.20</td></tr>
+              <tr><td>300</td><td>4.88</td></tr>
+              <tr><td>400</td><td>4.63</td></tr>
+              <tr><td>500</td><td>7.50</td></tr>
+              <tr><td>600</td><td>10.58</td></tr>
+              <tr><td>700</td><td>12.84</td></tr>
+              <tr><td>706</td><td>13.03</td></tr>
+            </table>        
+        </div>
+        <div class="col">
+          <div class="img-container"><img src="./img/dqn.png" alt="Vanilla DQN"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container">
+      <h2>DDQN</h2>
+      Environment solved in 596 episodes!	Average Score: 13.02
+      <div class="row">
+        <div class="col">
+          <div class="img-container"><img src="./img/ddqn.png" alt="Double DQN"></div>
+        </div>          
+        <div class="col">
+          <table>
+            <tr>
+              <th>Episode #</th><th>Average Score</th>
+            </tr>
+            <tr><td>100</td><td>0.32</td></tr>
+            <tr><td>200</td><td>1.31</td></tr>
+            <tr><td>300</td><td>5.75</td></tr>
+            <tr><td>400</td><td>7.11</td></tr>
+            <tr><td>500</td><td>8.96</td></tr>
+            <tr><td>600</td><td>11.09</td></tr>
+            <tr><td>696</td><td>13.02</td></tr>
+          </table>
+        </div>
+      </div>
+    </section>    
+
+    <section>
+
+      <h2>Obstacles & Future improvements</h2>
+      <p>
+        The next step would involve modifying the algorithm with the techniques such as Dueling DQN and Prioritized Experience Replay, as well as trying my hand
+        at implementing the pixels to action version of the project.
+
+        We would also like to experiment with the neural network architecture by changing the number
+        of layers and neurons, and inspect how it would affect the output.            
+      </p>
+      
+    </section>
+
+    <section>
+      <h2>References</h2>
+      <ul>
+        <li>
+            A link to the original paper on DQN can be found <a href="https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf">here</a>.
+        </li>
+        <li>
+            The paper on Double DQN can be found <a href="https://arxiv.org/pdf/1509.06461">here</a>
+        </li>
+      </ul>      
+    </section>    
+
+  </div>
+
+</body>
+
+</html>
