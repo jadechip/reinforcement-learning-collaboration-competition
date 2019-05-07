@@ -57,14 +57,14 @@ pip install .
 python -m ipykernel install --user --name drlnd --display-name "drlnd"
 ```
 
-5. In the `p3_continuous-control/` folder clone this repository.
+1. Clone the project
 
-```bash
-git https://github.com/ashoeb81/DRLND-P3
-cd DRLND-P3
 ```
+git clone https://github.com/skogman/drld_project_3.git
+```
+  
 
-6. Download the environment from one of the links below.  You need only select the environment that matches your operating system:
+2. Download the environment from one of the links below.  You need only select the environment that matches your operating system:
 
     - Linux: [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P3/Tennis/Tennis_Linux.zip)
     - Mac OSX: [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P3/Tennis/Tennis.app.zip)
@@ -75,6 +75,6 @@ cd DRLND-P3
 
     (_For AWS_) If you'd like to train the agent on AWS (and have not [enabled a virtual screen](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Training-on-Amazon-Web-Service.md)), then please use [this link](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P3/Tennis/Tennis_Linux_NoVis.zip) to obtain the "headless" version of the environment.  You will **not** be able to watch the agent without enabling a virtual screen, but you will be able to train the agent.  (_To watch the agent, you should follow the instructions to [enable a virtual screen](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Training-on-Amazon-Web-Service.md), and then download the environment for the **Linux** operating system above._)
 
-7. Place the file in the DRLND-P3 folder and unzip (or decompress) the file.
+3. Place the file in the DRLND-P3 folder and unzip (or decompress) the file.
 
-8. Train the agent using the notebook Tennis.ipynb
+4. Train the agent using the notebook Tennis.ipynb
