@@ -32,6 +32,7 @@
       background-color: #ffffff;
       width: 96px;
       box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+      z-index: 100;
     }
 
     aside ul {
@@ -55,10 +56,6 @@
       width: 100%;
       border-collapse: collapse;
       margin: 24px 0;
-    }
-
-    table, th, td {
-      border: 1px solid black;
     }
 
     h2 {
@@ -99,6 +96,7 @@
     }
 
     .gradient-backdrop {
+      opacity: 0.9;
       height: 400px;
       background: #E55D87;  /* fallback for old browsers */
       background: -webkit-linear-gradient(to right, #5FC3E4, #E55D87);  /* Chrome 10-25, Safari 5.1-6 */
@@ -116,45 +114,47 @@
       text-align: left;
     }
 
+    .img-container img {
+      width: 100%;
+      height: auto;
+    }
+
     .stretch img {
       width: 100%;
       height: auto;
       max-width: 240px;
     }
 
+    .img-backdrop {
+      background-image: url(https://user-images.githubusercontent.com/10624937/42135623-e770e354-7d12-11e8-998d-29fc74429ca2.gif);
+      background-size: contain;
+    }
+
+    @media only screen and (max-width: 700px) {
+      aside {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+    }
+
   </style>
 
   <aside>
     <ul>
-      <li>
-        P1
-      </li>
-      <li>P2</li>
+      <li><a href="https://jadechip.github.io/reinforcement-learning-navigation/">P1</a></li>
+      <li><a href="https://jadechip.github.io/reinforcement-learning-continous-control/">P2</a></li>
       <li class="active">P3</li>
     </ul>
   </aside>
 
-  <div class="gradient-backdrop">
-    <h1>Project 3: Collaboration</h1>
+  <div class="img-backdrop">
+    <div class="gradient-backdrop">
+      <h1>Reinforcement Learning: Collaboration and Competition</h1>
+    </div>  
   </div>  
 
   <div id="content">
-
-    <section>
-
-      <h2>Approach</h2>
-      <p>
-        When approaching the problem of solving the "Tennis" environment, we relied heavily on the 
-        knowledge and intuition gained from earlier chapters from the course.
-
-        We therefore decided to base our implementation on the MADDPG algorithm, used to solve the "Pendulum" environment. 
-
-        We found that the agent was able to complete the task and achieve a score greater than 0.5 in 417 episodes with a final score of 0.53.
-
-        Please see the plots and tables below for more information.
-        
-      </p>
-    </section>
 
     <section>
       <h2>
@@ -195,6 +195,15 @@
       Further more, the neural networks used to represent the actor and critic components both had 3 fully connected layers, and utilized a combination of Rectified linear unit (ReLU) and tanh activation functions.
       The number of neurons used in the hidden layers for the Actor and Critic networks were 400, 300 and 128, 256 respectively.
 
+    </section>
+
+
+    <section class="container">
+      <h2>Code</h2>
+      <h3>Actor - Critic</h3>
+      <script src="https://gist.github.com/jadechip/c4647c2193ec5153ca096f03eb5603a8.js"></script>
+      <h3>Agent</h3>
+      <script src="https://gist.github.com/jadechip/8c147de912ebd868ff68f7310ad29491.js"></script>
     </section>
 
     <section class="container">
